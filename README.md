@@ -1,6 +1,6 @@
 # Predicting Big Five personality traits using facial images
 
-This repository contains code to pre-preprocess data from the [Chalearn First Impressions V2 Challenge](https://chalearnlap.cvc.uab.cat/dataset/24/description/), and subsequently, train various PyTorch models to predict Big Five scores on facial images. In principle, it can be used with other datasets too, which contain videos of human faces and their respective Big Five scores.
+This lightweight repository contains code to pre-preprocess data from the [Chalearn First Impressions V2 Challenge](https://chalearnlap.cvc.uab.cat/dataset/24/description/), and subsequently, train various PyTorch models to predict Big Five scores on facial images. In principle, it can be used with other datasets too, which contain videos of human faces and their respective Big Five scores.
 
 ## The dataset
 The First Impressions dataset consists of 10.000 video clips of around 3000 high-quality YouTube videos, which are split into train, validation and test with a 3:1:1 ratio. The labels (Big Five scores) have been crowdsourced for every video using Amazon Mechanical Turk. For more information, visit the Challenge's [Website](https://chalearnlap.cvc.uab.cat/dataset/24/description/). 
