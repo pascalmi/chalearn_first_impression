@@ -23,3 +23,32 @@ Hereby, we should choose N=1 for the validation and test dataset. For the traini
 python pre-processing/extract_faces_from_frames.py path_to_frame_directory path_to_face_directory
 ```
 This code uses a pre-trained facial recognition model from the [Dlib](http://dlib.net/) library. The final images used for training, validation and testing will reside in `path_to_face_directory`.
+
+## Training and Hyperparameteroptimization
+In this repo, hyperparameteroptimization is taken care of automatically by [Raytune](https://docs.ray.io/en/master/index.html). To configure the desired Hyperparameter search space, you can simply edit the config variable in train_resnet_raytune_hyperparams.py. Now, we train models via
+```
+python train_resnet_raytune_hyperparams.py num_trials num_epochs experiment_name model_name
+```
+where `num_trials` is the maximum number of Hyperparameter configurations, `num_epochs` the maximum number of epochs per trial (however, depending on your computational resources, you also want to keep a close eye on Raytune's grace_period), `experiment_name` the name of the directory where training results will be logged via Tensorboard, and `model_name` picks a model from `model_architectures.py`. 
+
+Once the ideal Hyperparameter configuration was found, we can run a final training, which also incorporates the validation dataset for training, via 
+```
+python train.py num_epochs experiment_name model_name true batch_size
+```
+
+## Results
+The following table compares "accuracies" (see [paper](https://link.springer.com/chapter/10.1007/978-3-319-49409-8_25) for their derivation) for the different big five scores and their mean towards the winning team (NJU-LAMDA) of the original Chalearn Challenge.
+| Metrics | NJU-LAMDA | This Repo | 
+| ------- | :----------------------------------------: | :---------: | 
+| Acc. Open. | 0.9123 | 0.8984 | 
+| Acc. Consc. | 0.9166 | 0.8950 | 
+| Acc. Extra. | 0.9133 | 0.8965 | 
+| Acc. Agree. | 0.9126 | 0.9028 | 
+| Acc. Neuro. | 0.9100 | 0.8933 | 
+| Mean Acc. | 0.9130 | 0.8972 | 
+
+As we see, this lightweight repo achieves results close to the state-of-the-art and that although it does not incorporate the audio sequence of the videos, as did team NJU-LAMDA. 
+
+For a more comprehensive visualization of the results, the following plot shows the distribution of ground truth and prediction scores exemplarily for Extraversion, including the resulting scatter plot and error term distribution which all show a clear and strong correlation between predictions and ground truth values and as we can see, we're significantly outperforming the random baseline (red line, right plot).
+![results plot](https://github.com/pascalmi/chalearn_first_impression/blob/main/media/test_evaluation.png)
+
